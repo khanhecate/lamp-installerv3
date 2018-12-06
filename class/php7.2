@@ -1,0 +1,24 @@
+#!/bin/bash
+phpv=$(whiptail --title "[ Checklist php Function ]" --checklist \
+"Choose What you need php Function , you can Choose all" 20 60 11 \
+"php7.2" "" ON \
+"php7.2-mysql" "" ON \
+"php7.2-gd" "" ON \
+"php7.2-json" "" ON \
+"php7.2-xmlrpc" "" ON \
+"php7.2-cli" "" ON \
+"php7.2-intl" "" ON \
+"php7.2-curl" "" ON \
+"php-pear" "" ON \
+"php-json" "" ON \
+"php-zip" "" ON 3>&1 1>&2 2>&3)
+
+jadi=$?
+if [[ $jadi = 0 ]]; then
+	echo "apache2 $ $phpv " > /tmp/phpv-re
+	sed 's/\"//g' /tmp/phpv-re > /tmp/phpv
+	phpv=`cat /tmp/phpv`
+	apt install $phpv
+else exit
+fi 
+rm /tmp/phpv /tmp/phpv-re

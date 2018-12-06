@@ -1,0 +1,57 @@
+#!/bin/bash
+if [[ $EUID -ne 0 ]]; then
+	echo "are you root ?"
+	exit 
+	else
+	clear
+fi
+chmod -R 755 *
+whiptail --title "[Welcome To Lamp Instaler v-2.1]" --msgbox "this is shell script for easy way to install Web server and Now it's have 3 version php " 10 60
+while true
+do
+	OPTION=$(whiptail --title "Select php version" --menu "choose version" 15 60 3 \
+	"php5.0" "unsually debian 8.x"  \
+	"php7.0" "unsually debian 9.x"  \
+	"php7.2" "unsually ubuntu 18"  3>&1 1>&2 2>&3)
+
+	exitstatus=$?
+	if [ $exitstatus = 0 ]; then
+		./class/$OPTION && break
+		break
+	else
+		echo "Abort.." && exit
+	fi
+done
+cp class/info.php /var/www/html/ && sleep 1 && clear
+while true
+do
+	database=$(whiptail --title "[ Choose Database Server ]" --menu "choose version" 15 60 2 \
+	"mariadb-server" "" \
+	"mysql-server" ""  3>&1 1>&2 2>&3)
+
+	exitstatus=$?
+	if [ $exitstatus = 0 ]; then
+		apt install $database
+		break
+	else
+		echo "Abort.." && exit
+	fi
+done
+if (whiptail --title "[ Security ]" --yesno "would you run \"mysql_secure_installation\"?" 10 60); then
+	mysql_secure_installation
+fi
+#install phpmyadmin
+if (whiptail --title "[ phpmyadmin ]" --yesno "would you install \"phpmyadmin\"?" 10 60); then
+	apt install phpmyadmin
+	
+fi
+
+#generate a2enmod
+if (whiptail --title "[ a2enmod ]" --yesno "would you rewrite \"a2enmod\"?" 10 60);then
+	a2enmod rewrite 
+fi
+
+if (whiptail --title "[ apache2 ]" --yesno "would you resart apache server ?" 10 60); then
+	/etc/init.d/apache2 restart 
+fi
+whiptail --title "done" --msgbox "done your Lamp Now installed !" 10 60
