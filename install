@@ -6,7 +6,7 @@ if [[ $EUID -ne 0 ]]; then
 	clear
 fi
 chmod -R 755 *
-whiptail --title "[Welcome To Lamp Instaler v-2.1]" --msgbox "this is shell script for easy way to install Web server and Now it's have 3 version php " 10 60
+whiptail --title "[Welcome To Lamp Instaler v-3]" --msgbox "this is shell script for easy way to install Web server and Now it's have 3 version php " 10 60
 while true
 do
 	OPTION=$(whiptail --title "Select php version" --menu "choose version" 15 60 3 \
